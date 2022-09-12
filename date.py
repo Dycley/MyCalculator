@@ -264,6 +264,8 @@ class Ui_Date(QMainWindow):
         self.label_10.setText(_translate("Date", "日期:"))
         self.label_9.setText(_translate("Date", self.dateEdit_3.text()))
 
+
+
     def change(self):
         if self.comboBox.currentIndex() == 0:
             self.frame_2.hide()

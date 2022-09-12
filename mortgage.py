@@ -189,13 +189,7 @@ class Ui_Mortgage(QMainWindow):
         self.lineEdit_3.setValidator(QtGui.QDoubleValidator())
 
         self.retranslateUi(Mortgage)
-        self.pushButton.clicked.connect(self.lineEdit_1.clear)
-        self.pushButton.clicked.connect(self.lineEdit_2.clear)
-        self.pushButton.clicked.connect(self.lineEdit_3.clear)
-        self.pushButton.clicked.connect(self.lineEdit_4.clear)
-        self.pushButton.clicked.connect(self.lineEdit_5.clear)
-        self.pushButton.clicked.connect(self.lineEdit_6.clear)
-        self.pushButton_2.clicked.connect(self.calculator)
+        self.connecter()
         QtCore.QMetaObject.connectSlotsByName(Mortgage)
 
     def retranslateUi(self, Mortgage):
@@ -212,6 +206,15 @@ class Ui_Mortgage(QMainWindow):
         self.label_5.setText(_translate("Mortgage", "月均还款(元)："))
         self.label_6.setText(_translate("Mortgage", "利息总额(元)："))
         self.label_7.setText(_translate("Mortgage", "还款总额(元)："))
+
+    def connecter(self):
+        self.pushButton.clicked.connect(self.lineEdit_1.clear)
+        self.pushButton.clicked.connect(self.lineEdit_2.clear)
+        self.pushButton.clicked.connect(self.lineEdit_3.clear)
+        self.pushButton.clicked.connect(self.lineEdit_4.clear)
+        self.pushButton.clicked.connect(self.lineEdit_5.clear)
+        self.pushButton.clicked.connect(self.lineEdit_6.clear)
+        self.pushButton_2.clicked.connect(self.calculator)
 
     def calculator(self):
         try:
