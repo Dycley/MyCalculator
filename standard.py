@@ -779,4 +779,3 @@ class Ui_MainWindow(object):
         self.child_window.show()
 
 
-# 文本游标
