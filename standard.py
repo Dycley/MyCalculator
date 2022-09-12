@@ -764,7 +764,7 @@ class Ui_MainWindow(object):
         self.child_window.setupUi(self.child_window)
         self.child_window.show()
 
-    def open_Date(self):                                 # 利息计算
+    def open_Date(self):                                 # 日期计算
         import date
         self.child_window = date.Ui_Date()
         self.child_window.setupUi(self.child_window)

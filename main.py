@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# @Author: yokden
+# @Time: 2022/9/12
+
 import sys
 import standard
 from PyQt5 import QtWidgets
