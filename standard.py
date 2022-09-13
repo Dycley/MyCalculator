@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import math, re, random
 
 from PyQt5.QtGui import QTextCursor
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_MainWindow(object):
@@ -551,22 +552,30 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.action_2 = QtWidgets.QAction(MainWindow)
         self.action_2.setObjectName("action_2")
+        self.action_2.setShortcut("Ctrl+2")
         self.actionk_3 = QtWidgets.QAction(MainWindow)
         self.actionk_3.setObjectName("actionk_3")
+        self.actionk_3.setShortcut("Ctrl+3")
         self.actiond_4 = QtWidgets.QAction(MainWindow)
         self.actiond_4.setObjectName("actiond_4")
+        self.actiond_4.setShortcut("Ctrl+4")
         self.actionh_5 = QtWidgets.QAction(MainWindow)
         self.actionh_5.setObjectName("actionh_5")
+        self.actionh_5.setShortcut("Ctrl+6")
         self.actionk_1 = QtWidgets.QAction(MainWindow)
         self.actionk_1.setObjectName("actionk_1")
         self.actionk_close = QtWidgets.QAction(MainWindow)
         self.actionk_close.setObjectName("actionk_clsoe")
+        self.actionk_close.setShortcut("Alt+F4")
+        self.actionk_about = QtWidgets.QAction(MainWindow)
+        self.actionk_about.setObjectName("actionk_about")
         self.menu.addAction(self.actionk_1)
         self.menu.addAction(self.action_2)
         self.menu.addAction(self.actionk_3)
         self.menu.addAction(self.actiond_4)
         self.menu.addAction(self.actionh_5)
         self.menu.addAction(self.actionk_close)
+        self.menu_2.addAction(self.actionk_about)
         self.menubar.addAction(self.menu.menuAction())
         self.menubar.addAction(self.menu_2.menuAction())
 
@@ -631,6 +640,7 @@ class Ui_MainWindow(object):
         self.actionh_5.setText(_translate("MainWindow", "货币转换"))
         self.actionk_1.setText(_translate("MainWindow", "标准"))
         self.actionk_close.setText(_translate("MainWindow", "关闭"))
+        self.actionk_about.setText(_translate("MainWindow", "关于"))
 
     def connecter(self):
         self.pushButton_1.clicked.connect(lambda: self.display("1"))
@@ -668,7 +678,7 @@ class Ui_MainWindow(object):
         self.pushButton_ans.clicked.connect(lambda: self.display("ANS"))
         self.pushButton_eql.clicked.connect(lambda: self.display("\n", 1))
         self.pushButton_clear.clicked.connect(self.textEdit.clear)
-        self.pushButton_clear.clicked.connect(self.label.clear)
+        self.pushButton_clear.clicked.connect(self.clear)
         self.pushButton_back.clicked.connect(self.backspace)
         self.textEdit.textChanged.connect(self.input_text)
 
@@ -676,6 +686,7 @@ class Ui_MainWindow(object):
         self.actionk_3.triggered.connect(self.open_date)
         self.actionh_5.triggered.connect(self.open_exchange)
         self.action_2.triggered.connect(self.open_programmer)
+        self.actionk_about.triggered.connect(self.about)
 
     # 在屏幕上显示
     def display(self, ch, n=0):
@@ -700,6 +711,10 @@ class Ui_MainWindow(object):
         self.textEdit.setTextCursor(self.cursor)
 
     # 计算
+    def clear(self):
+        self.label.clear()
+        self.text_len = 0
+
     def calculate(self):
         self.label.clear()
         ori = self.textEdit.toPlainText().split("\n")
@@ -742,7 +757,7 @@ class Ui_MainWindow(object):
         except SyntaxError:
             self.label.setText("Syntax Error!")
         except ValueError:
-            self.label.setText("Math domain error!")
+            self.label.setText("Math Domain Error!")
         except Exception as e:
             print(e)
             self.label.setText("Syntax Error!")
@@ -755,19 +770,25 @@ class Ui_MainWindow(object):
             letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrestuvwxyzπ0123456789 +-*/×%\n()^."
             if self.textEdit.toPlainText()[-1] not in letter:
                 self.backspace()
+                self.text_len -= 1
             elif self.textEdit.toPlainText()[-1] == "\n":
+                print(self.textEdit.toPlainText().split("\n"))
                 last_sec = self.textEdit.toPlainText().split("\n")[-2]
                 if last_sec != "" and last_sec[0] != "=":
                     self.calculate()
                 self.text_len = l
 
-    def open_mortgage(self):                                 # 利息计算
+    def about(self):
+        print(1)
+        QMessageBox.about(None, "关于", "A simple calculator designed by YokDen")
+
+    def open_mortgage(self):  # 利息计算
         import mortgage
         self.child_window = mortgage.Ui_Mortgage()
         self.child_window.setupUi(self.child_window)
         self.child_window.show()
 
-    def open_date(self):                                 # 日期计算
+    def open_date(self):  # 日期计算
         import date
         self.child_window = date.Ui_Date()
         self.child_window.setupUi(self.child_window)
@@ -775,7 +796,7 @@ class Ui_MainWindow(object):
 
     def open_exchange(self):
         import exchange
-        self.child_window =exchange.Ui_Exchange()
+        self.child_window = exchange.Ui_Exchange()
         self.child_window.setupUi(self.child_window)
         self.child_window.show()
 
@@ -784,4 +805,3 @@ class Ui_MainWindow(object):
         self.child_window = programmer.Ui_Programmer()
         self.child_window.setupUi(self.child_window)
         self.child_window.show()
-
