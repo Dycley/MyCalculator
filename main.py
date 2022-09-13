@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# @Author: yokden
+# @Author: YokDen
 # @Time: 2022/9/12
 
 import sys

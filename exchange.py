@@ -836,7 +836,7 @@ class Ui_Exchange(QMainWindow):
             if len(list) == 2 and list[0] == "1":
                 rate = float(list[1])
                 v = float(self.lineEdit.text())
-                self.lineEdit_2.setText(str(round(v * rate, 2)))
+                self.lineEdit_2.setText(str(round(v * rate, 6)))
             else:
                 self.lineEdit_2.clear()
 

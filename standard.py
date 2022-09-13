@@ -625,7 +625,7 @@ class Ui_MainWindow(object):
         self.pushButton_rnd.setText(_translate("MainWindow", "Rnd"))
         self.menu.setTitle(_translate("MainWindow", "选项"))
         self.menu_2.setTitle(_translate("MainWindow", "关于"))
-        self.action_2.setText(_translate("MainWindow", "程序员"))
+        self.action_2.setText(_translate("MainWindow", "进制转换"))
         self.actionk_3.setText(_translate("MainWindow", "日期计算"))
         self.actiond_4.setText(_translate("MainWindow", "利息计算"))
         self.actionh_5.setText(_translate("MainWindow", "货币转换"))
@@ -675,6 +675,7 @@ class Ui_MainWindow(object):
         self.actiond_4.triggered.connect(self.open_mortgage)
         self.actionk_3.triggered.connect(self.open_date)
         self.actionh_5.triggered.connect(self.open_exchange)
+        self.action_2.triggered.connect(self.open_programmer)
 
     # 在屏幕上显示
     def display(self, ch, n=0):
@@ -778,4 +779,9 @@ class Ui_MainWindow(object):
         self.child_window.setupUi(self.child_window)
         self.child_window.show()
 
+    def open_programmer(self):
+        import programmer
+        self.child_window = programmer.Ui_Programmer()
+        self.child_window.setupUi(self.child_window)
+        self.child_window.show()
 

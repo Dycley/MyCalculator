@@ -264,8 +264,6 @@ class Ui_Date(QMainWindow):
         self.label_10.setText(_translate("Date", "日期:"))
         self.label_9.setText(_translate("Date", self.dateEdit_3.text()))
 
-
-
     def change(self):
         if self.comboBox.currentIndex() == 0:
             self.frame_2.hide()
@@ -310,14 +308,3 @@ class Ui_Date(QMainWindow):
             self.label_9.setText(str(date_value.date()))
         except:
             self.label_9.setText("超出日期")
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_Date()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
