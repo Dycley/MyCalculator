@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import math, re, random
+import math, random
 
 from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QMessageBox
@@ -701,7 +701,7 @@ class Ui_MainWindow(object):
         else:
             exp = self.textEdit.toPlainText()
             self.textEdit.setText(exp + ch)
-        self.textEdit.setTextCursor(self.cursor)
+        self.textEdit.setTextCursor(self.cursor)  # 将文本框焦点控制在最后
 
     # 退格
     def backspace(self):
@@ -741,11 +741,11 @@ class Ui_MainWindow(object):
         exp = exp[1:-1]
         exp = exp.replace("e", "math.e").replace("E", "*10**").replace("sin", "math.sin").replace("cos",
                                                                                                   "math.cos").replace(
-            "tan",
-            "math.tan").replace(
-            ")(", ")*(").replace("ANS", "self.ans").replace("π", "math.pi").replace("^", "**").replace("Rnd",
-                                                                                                       "random.random()").replace(
-            "sqrt", "math.sqrt").replace("ln", "math.log").replace("mod", "%").replace("×", "*")
+            "tan", "math.tan").replace(")(", ")*(").replace("ANS", "self.ans").replace("π", "math.pi").replace("^",
+                                                                                                               "**").replace(
+            "Rnd", "random.random()").replace("sqrt", "math.sqrt").replace("ln", "math.log").replace("mod",
+                                                                                                     "%").replace("×",
+                                                                                                                  "*")
         try:
             print(exp)
             self.ans = eval(exp)
@@ -772,14 +772,12 @@ class Ui_MainWindow(object):
                 self.backspace()
                 self.text_len -= 1
             elif self.textEdit.toPlainText()[-1] == "\n":
-                print(self.textEdit.toPlainText().split("\n"))
                 last_sec = self.textEdit.toPlainText().split("\n")[-2]
                 if last_sec != "" and last_sec[0] != "=":
                     self.calculate()
                 self.text_len = l
 
     def about(self):
-        print(1)
         QMessageBox.about(None, "关于", "A simple calculator designed by YokDen")
 
     def open_mortgage(self):  # 利息计算
