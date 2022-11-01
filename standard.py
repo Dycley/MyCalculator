@@ -677,7 +677,6 @@ class Ui_MainWindow(object):
         self.pushButton_rec.clicked.connect(lambda: self.display("^-1", 1))
         self.pushButton_ans.clicked.connect(lambda: self.display("ANS"))
         self.pushButton_eql.clicked.connect(lambda: self.display("\n", 1))
-        self.pushButton_clear.clicked.connect(self.textEdit.clear)
         self.pushButton_clear.clicked.connect(self.clear)
         self.pushButton_back.clicked.connect(self.backspace)
         self.textEdit.textChanged.connect(self.input_text)
@@ -712,19 +711,21 @@ class Ui_MainWindow(object):
 
     # 计算
     def clear(self):
+        self.textEdit.clear()
         self.label.clear()
         self.text_len = 0
 
     def calculate(self):
         self.label.clear()
-        ori = self.textEdit.toPlainText().split("\n")
+        ori = self.textEdit.toPlainText().split("\n")                            # 获取表达式
         while ori[-1] == "":
             ori.pop()
         exp = ori[-1]
         if exp[0] == "=":
             exp = exp[1:]
-        exp += ")" * (exp.count("(") - exp.count(")"))
-        exp = "#" + exp + "#"
+        exp += ")" * (exp.count("(") - exp.count(")"))                           # 添加省略的右括号
+
+        exp = "#" + exp + "#"                                                    # 添加省略的乘号
         letter1 = "ABCDFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrestuvwxyzπ0123456789"
         letter2 = "01234567890eπ"
         letter3 = "ABCDFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrestuvwxyzπ"
@@ -739,6 +740,7 @@ class Ui_MainWindow(object):
                 exp = exp[:i + 1] + "*" + exp[i + 1:]
             i += 1
         exp = exp[1:-1]
+        # 此处对表达式进行处理，将获取的表达式转化为符合python语法的表达式
         exp = exp.replace("e", "math.e").replace("E", "*10**").replace("sin", "math.sin").replace("cos",
                                                                                                   "math.cos").replace(
             "tan", "math.tan").replace(")(", ")*(").replace("ANS", "self.ans").replace("π", "math.pi").replace("^",
@@ -748,17 +750,17 @@ class Ui_MainWindow(object):
                                                                                                                   "*")
         try:
             print(exp)
-            self.ans = eval(exp)
+            self.ans = eval(exp)                           # 对表达式进行计算并保存结果
             answer = self.textEdit.toPlainText() + "= " + str(self.ans)
-            self.textEdit.setText(answer)
-            self.textEdit.setTextCursor(self.cursor)
-        except ZeroDivisionError as z:
+            self.textEdit.setText(answer)                  # 输出结果
+            self.textEdit.setTextCursor(self.cursor)       # 将焦点聚焦到文本框末尾
+        except ZeroDivisionError as z:                     # 除数为0
             self.label.setText("Division by 0!")
-        except SyntaxError:
+        except SyntaxError:                                # 语法错误
             self.label.setText("Syntax Error!")
-        except ValueError:
+        except ValueError:                                 # 数学错误
             self.label.setText("Math Domain Error!")
-        except Exception as e:
+        except Exception as e:                             # 其他输入错误
             print(e)
             self.label.setText("Syntax Error!")
         finally:
@@ -766,16 +768,16 @@ class Ui_MainWindow(object):
 
     def input_text(self):
         l = len(self.textEdit.toPlainText())
-        if l > self.text_len:
+        if l > self.text_len:                                               # 文本长度增加时进行处理
             letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrestuvwxyzπ0123456789 +-*/×%\n()^."
-            if self.textEdit.toPlainText()[-1] not in letter:
+            if self.textEdit.toPlainText()[-1] not in letter:               # 过滤一些不合理的输入
                 self.backspace()
                 self.text_len -= 1
-            elif self.textEdit.toPlainText()[-1] == "\n":
+            elif self.textEdit.toPlainText()[-1] == "\n":                   # 按下回车时或点击等号时进行计算
                 last_sec = self.textEdit.toPlainText().split("\n")[-2]
                 if last_sec != "" and last_sec[0] != "=":
                     self.calculate()
-                self.text_len = l
+                self.text_len = l                                           # text_len用于存储文本长度
 
     def about(self):
         QMessageBox.about(None, "关于", "A simple calculator designed by YokDen")
